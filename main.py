@@ -1,3 +1,7 @@
+"""
+uvicorn main:app --host 0.0.0.0 --port 8000
+"""
+
 from fastapi import FastAPI, Request
 import graphviz
 import base64
@@ -31,7 +35,7 @@ async def generate_dag(request: Request):
         if node in used_nodes:
             dot.node(node['label'], f"{node['label']}")
     for edge in edges:
-        dot.edge(edge['source'], edge['target'], label=edge['description'])
+        dot.edge(edge['source'], edge['target'], label="")
     output_path = dot.render('dag_output', view=False)
 
     # 画像Base64化
