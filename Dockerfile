@@ -1,17 +1,19 @@
 FROM python:3.11-slim
 
-# 必要なツールのインストール
-RUN apt-get update && apt-get install -y graphviz && rm -rf /var/lib/apt/lists/*
+# 追加：Graphvizと日本語フォントのインストール
+RUN apt-get update && \
+    apt-get install -y graphviz fonts-noto-cjk && \
+    rm -rf /var/lib/apt/lists/*
 
-# 作業ディレクトリ作成
+# 作業ディレクトリの設定
 WORKDIR /app
 
-# 依存関係をコピーしてインストール
+# 依存関係のインストール
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# アプリ本体をコピー
+# アプリのコピー
 COPY . .
 
-# 起動コマンド
+# Uvicornでアプリ起動
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
